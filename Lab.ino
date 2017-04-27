@@ -1,9 +1,9 @@
 #include <TimerOne.h>
 
-const int A = 2;
-const int B = 3;
-const int C = 4;
-const int D = 5;
+const int A = 3;
+const int B = 4;
+const int C = 5;
+const int D = 6;
 String dictionary[10];
 int gameTime;
 String inputString = "";
@@ -14,6 +14,19 @@ bool start = false;
 bool finishGame = false;
 bool finishStart = false;
 int retroTime=0;
+int amountPlayer1;
+int amountPlayer2;
+
+
+const int tiempoAntirebote =10;
+const int tiempoAntirebote2 =10;
+
+int estadoBoton;
+int estadoBotonAnterior;
+
+int estadoBoton2;
+int estadoBotonAnterior2;
+
 
 
 
@@ -25,6 +38,10 @@ void setup() {
   pinMode(B, OUTPUT);
   pinMode(C, OUTPUT);
   pinMode(D, OUTPUT);
+
+  pinMode(8,INPUT);
+  pinMode(7,OUTPUT);
+  digitalWrite(7, 1);
 
   dictionary[0]="0000";
   dictionary[1]="0001";
@@ -48,6 +65,8 @@ void setup() {
 
   Timer1.initialize(1000000);
   Timer1.attachInterrupt(timerIsr );
+  //attachInterrupt(digitalPinToInterrupt(2), addPlayer1, RISING );
+  
 
   //retroTime=8;
   //transmitir(retroTime);
@@ -66,6 +85,32 @@ void loop() {
     stringComplete=false;
     inputString="";
   }
+
+  if(!finishGame && finishStart){
+
+    
+   estadoBoton =digitalRead (2);              //leemos el estado del boton
+    if (estadoBoton  != estadoBotonAnterior) {     //si hay cambio con respeto al estado 
+      if (antirebote (2)){                    //checamos  si esta preionado y si lo esta
+        amountPlayer1++;                                //aumentamos la cuenta
+        Serial.println (amountPlayer1);       
+      }
+    }
+    estadoBotonAnterior = estadoBoton;
+
+    
+    estadoBoton2 =digitalRead (8);              //leemos el estado del boton
+    if (estadoBoton2  != estadoBotonAnterior2) {     //si hay cambio con respeto al estado 
+      if (antirebote2 (8)){                    //checamos  si esta preionado y si lo esta
+        amountPlayer2++;                                //aumentamos la cuenta
+        Serial.println (amountPlayer2);       
+      }
+    }
+    estadoBotonAnterior2 = estadoBoton2;
+    
+    
+  }
+ 
   
 }	
 
@@ -115,6 +160,7 @@ void timerIsr() {
     if(retroTime==0){
       if(finishStart){
         stopGame();
+        finishGame = true;
       }else{
         finishStart = true;
         transmitir(gameTime);
@@ -128,4 +174,49 @@ void timerIsr() {
 void stopGame(){
   Serial.println("Finish Game");
 }
+
+void addPlayer1(){
+  
+}
+
+boolean antirebote  (int pin ) {
+  int  contador =0;
+  boolean estado;            // guarda el estado del boton 
+  boolean estadoAnterior;    // guarda el ultimo estado del boton 
+
+  do {
+    estado = digitalRead (pin);
+    if (estado != estadoAnterior ){  // comparamos el estado actual 
+      contador = 0;                   // reiniciamos el contador 
+      estadoAnterior = estado;
+    }
+    else{
+      contador = contador +1;       // aumentamos el contador en 1
+    }
+    delay (1);
+  }
+  while (contador < tiempoAntirebote);
+  return estado;
+}
+
+boolean antirebote2  (int pin ) {
+  int  contador2 =0;
+  boolean estado2;            // guarda el estado del boton 
+  boolean estadoAnterior2;    // guarda el ultimo estado del boton 
+
+  do {
+    estado2 = digitalRead (pin);
+    if (estado2 != estadoAnterior2 ){  // comparamos el estado actual 
+      contador2 = 0;                   // reiniciamos el contador 
+      estadoAnterior2 = estado2;
+    }
+    else{
+      contador2 = contador2 +1;       // aumentamos el contador en 1
+    }
+    delay (1);
+  }
+  while (contador2 < tiempoAntirebote2);
+  return estado2;
+}
+
 
