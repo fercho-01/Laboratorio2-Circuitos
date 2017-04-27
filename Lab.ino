@@ -28,6 +28,16 @@ int estadoBoton2;
 int estadoBotonAnterior2;
 
 
+int led1 = 1;
+int led2 = 7;
+int led3 = 9;
+int led4 = 10;
+int led5 = 11;
+int led6 = 12;
+int led7 = 13;
+
+
+
 
 
 
@@ -40,8 +50,15 @@ void setup() {
   pinMode(D, OUTPUT);
 
   pinMode(8,INPUT);
+  
+
+  pinMode(1,OUTPUT);
   pinMode(7,OUTPUT);
-  digitalWrite(7, 1);
+  pinMode(9,OUTPUT);
+  pinMode(10,OUTPUT);
+  pinMode(11,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(13,OUTPUT);
 
   dictionary[0]="0000";
   dictionary[1]="0001";
@@ -71,6 +88,7 @@ void setup() {
   //retroTime=8;
   //transmitir(retroTime);
   //start = true;
+  encenderLed(0,0,0,1,0,0,0);
    
 };
 
@@ -225,20 +243,37 @@ void updateLed(){
   int diference = amountPlayer1 - amountPlayer2;
   if(diference == 0){
     Serial.println("Empate");
+    encenderLed(0,0,0,1,0,0,0);
   }else if(diference == 1){
     Serial.println("Diferencia de 1 Player 1");
+    encenderLed(0,0,1,0,0,0,0);
   }else if(diference == 2){
+    encenderLed(0,1,0,0,0,0,0);
     Serial.println("Diferencia de 2 Player 1");
   }else if(diference >2){
+    encenderLed(1,0,0,0,0,0,0);
     Serial.println("Diferencia mayor Player 1");
   }else if(diference == -1){
+    encenderLed(0,0,0,0,1,0,0);
     Serial.println("Diferencia de 1 Player 2");
   }else if(diference == -2){
+    encenderLed(0,0,0,0,0,1,0);
     Serial.println("Diferencia de 2 Player 2");
   }else if(diference <-2){
+    encenderLed(0,0,0,0,0,0,1);
     Serial.println("Diferencia mayor Player 2");
   }
   
+}
+
+void encenderLed(int L1,int L2,int L3,int L4,int L5,int L6,int L7){
+  digitalWrite(led1, L1);
+  digitalWrite(led2, L2);
+  digitalWrite(led3, L3);
+  digitalWrite(led4, L4);
+  digitalWrite(led5, L5);
+  digitalWrite(led6, L6);
+  digitalWrite(led7, L7);
 }
 
 
