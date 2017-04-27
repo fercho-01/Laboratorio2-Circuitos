@@ -93,7 +93,8 @@ void loop() {
     if (estadoBoton  != estadoBotonAnterior) {     //si hay cambio con respeto al estado 
       if (antirebote (2)){                    //checamos  si esta preionado y si lo esta
         amountPlayer1++;                                //aumentamos la cuenta
-        Serial.println (amountPlayer1);       
+        //Serial.println (amountPlayer1);  
+        updateLed();     
       }
     }
     estadoBotonAnterior = estadoBoton;
@@ -103,7 +104,8 @@ void loop() {
     if (estadoBoton2  != estadoBotonAnterior2) {     //si hay cambio con respeto al estado 
       if (antirebote2 (8)){                    //checamos  si esta preionado y si lo esta
         amountPlayer2++;                                //aumentamos la cuenta
-        Serial.println (amountPlayer2);       
+        //Serial.println (amountPlayer2);      
+        updateLed(); 
       }
     }
     estadoBotonAnterior2 = estadoBoton2;
@@ -217,6 +219,26 @@ boolean antirebote2  (int pin ) {
   }
   while (contador2 < tiempoAntirebote2);
   return estado2;
+}
+
+void updateLed(){
+  int diference = amountPlayer1 - amountPlayer2;
+  if(diference == 0){
+    Serial.println("Empate");
+  }else if(diference == 1){
+    Serial.println("Diferencia de 1 Player 1");
+  }else if(diference == 2){
+    Serial.println("Diferencia de 2 Player 1");
+  }else if(diference >2){
+    Serial.println("Diferencia mayor Player 1");
+  }else if(diference == -1){
+    Serial.println("Diferencia de 1 Player 2");
+  }else if(diference == -2){
+    Serial.println("Diferencia de 2 Player 2");
+  }else if(diference <-2){
+    Serial.println("Diferencia mayor Player 2");
+  }
+  
 }
 
 
