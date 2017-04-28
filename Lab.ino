@@ -38,12 +38,12 @@ int led7 = 15;
 
 void setup() {
      
+  pinMode(C, OUTPUT);
+  pinMode(D, OUTPUT);
   Serial.begin(9600);  
   //Configuración de pines del arduino 
   pinMode(A, OUTPUT);
   pinMode(B, OUTPUT);
-  pinMode(C, OUTPUT);
-  pinMode(D, OUTPUT);
   pinMode(8,INPUT);
   
   pinMode(led1,OUTPUT);
@@ -184,6 +184,14 @@ void timerIsr() {
 //Función que se ejecuta cuando se termina el juego
 void stopGame(){
   Serial.println("Finish Game");
+  int result = amountPlayer1-amountPlayer2;
+  if(result>0){
+    Serial.println("Gano el player 1");
+  }else if(result<0){
+    Serial.println("Gano el player 2");
+  }else{
+    Serial.println("Empate");
+  }
 }
 
 
