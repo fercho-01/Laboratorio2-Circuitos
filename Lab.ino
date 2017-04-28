@@ -28,13 +28,13 @@ int estadoBoton2;
 int estadoBotonAnterior2;
 
 //Led que muestran los puntajes del juego
-int led1 = 1;
+int led1 = 14;
 int led2 = 7;
 int led3 = 9;
 int led4 = 10;
 int led5 = 11;
 int led6 = 12;
-int led7 = 13;
+int led7 = 15;
 
 void setup() {
      
